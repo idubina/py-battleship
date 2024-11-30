@@ -11,7 +11,7 @@ class Ship:
         self.is_drowned = is_drowned
         self.decks = []
 
-        if start[0] == end[0] and start[1] == end[1]:
+        if start == end:
             self.start_column = start[1]
             self.end_column = self.start_column
             self.end_row = end[0]
@@ -67,7 +67,6 @@ class Battleship:
             new_ship = Ship(ship[0], ship[1])
             for cell in new_ship.decks:
                 self.field[(cell.row, cell.column)] = new_ship
-        # self._validate_field()
 
     def fire(self, location: tuple) -> str:
         if location in self.field.keys():
