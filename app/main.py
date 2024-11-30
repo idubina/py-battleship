@@ -11,9 +11,11 @@ class Ship:
         self.is_drowned = is_drowned
         self.decks = []
 
-        if start[0] == start[1] and end[0] == end[1]:
-            self.start_column, self.end_column = start[1], end[1]
-            self.end_row, self.start_row = end[0], start[0]
+        if start[0] == end[0] and start[1] == end[1]:
+            self.start_column = start[1]
+            self.end_column = self.start_column
+            self.end_row = end[0]
+            self.start_row = self.end_row
             self.decks.append(Deck(self.start_row, self.end_column))
             self.position = "single"
         elif start[0] == end[0]:
@@ -52,7 +54,7 @@ class Ship:
         for deck in self.decks:
             if (row, column) == (deck.row, deck.column):
                 deck.is_alive = False
-        if True not in [deck.is_alive for deck in self.decks]:
+        if all(not deck.is_alive for deck in self.decks):
             self.is_drowned = True
             return "Sunk!"
         return "Hit!"
@@ -62,7 +64,7 @@ class Battleship:
     def __init__(self, ships: list) -> None:
         self.field = {}
         for ship in ships:
-            new_ship = Ship(*ship)
+            new_ship = Ship(ship[0], ship[1])
             for cell in new_ship.decks:
                 self.field[(cell.row, cell.column)] = new_ship
         # self._validate_field()
